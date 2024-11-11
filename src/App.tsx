@@ -1,21 +1,20 @@
-import Sidebar from "./components/Sidebar.tsx";
-import Header from "./components/Header";
-import PledgeClass from "./components/PledgeClass";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Use Routes instead of Switch
 
-function App() {
-    return (
-        <div className="py-[4vh] px-[4vw] flex flex-col items-start gap-10 min-h-screen">
-            <Header/>
-            <div className="flex flex-row w-full gap-10">
-                <div className="w-1/6">
-                    <Sidebar/>
-                </div>
-                <div className="w-5/6">
-                    <PledgeClass/>
-                </div>
-            </div>
-        </div>
-    )
-}
+import LoginPage from './components/Login';
+import AdminDashboard from './components/AdminDashboard';
+import PledgeDashboard from './components/PledgeDashboard';
 
-export default App
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Routes>  {/* Use Routes to wrap your routes */}
+        <Route path="/" element={<LoginPage />} />  {/* Use element prop */}
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/pledge-dashboard" element={<PledgeDashboard />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
