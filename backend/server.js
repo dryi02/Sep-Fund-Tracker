@@ -14,7 +14,7 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173',  // Replace this with your frontend URL
+  origin: ['http://localhost:5173', 'https://sep-fund-tracker.vercel.app/'],  // Replace this with your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Specify allowed methods
   allowedHeaders: ['Content-Type', 'Authorization']  // Specify allowed headers
 }));
