@@ -26,6 +26,10 @@ app.use('/api/classes', classRoutes);  // Use class routes
 app.use('/api/pledges', pledgeRoutes);  // Use pledge routes
 app.use('/api/admin', adminRoutes);  // Use admin routes
 
+app.get('/', (req, res) => {
+  res.status(200).send('SEP Tracker Backend');
+});
+
 // Set the server to listen
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
