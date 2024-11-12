@@ -1,33 +1,31 @@
 import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AlertCircle } from 'lucide-react';
 
 const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState<string>('');  // First name (username)
-  const [password, setPassword] = useState<string>('');  // Last name (password)
-  const [error, setError] = useState<string>('');  // Error message
-  const navigate = useNavigate();  // For navigation after login
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const navigate = useNavigate();
 
-  // Handle form submission
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      // Simulate a login API request
       const response = await fetch('http://localhost:5000/api/admin/login', {
         method: 'POST',
-        body: JSON.stringify({ username, password }),  // Send first name + last name
+        body: JSON.stringify({ username, password }),
         headers: { 'Content-Type': 'application/json' },
       });
 
       const data = await response.json();
-      console.log(data);  // Log response to see if it worked
+      console.log(data);
 
       if (response.ok) {
-        // Based on the role from the backend, redirect to the appropriate dashboard
         if (data.role === 'admin') {
-          navigate('/admin-dashboard');  // If role is admin, go to admin dashboard
+          navigate('/admin-dashboard');
         } else if (data.role === 'pledge') {
-          navigate('/pledge-dashboard');  // If role is pledge, go to pledge dashboard
+          navigate('/pledge-dashboard');
         }
       } else {
         setError(data.message || 'Invalid credentials');
@@ -38,35 +36,55 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div className="input-group">
-          <label htmlFor="username">First Name</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+    <div className="flex items-center justify-center min-h-screen bg-[#F5F5F5]">
+      <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
+        <div className="flex justify-center mb-6">
+          <img src="src/assets/SEP_blackLogo.svg" alt="Sigma Eta Pi Logo" className="h-24" />
         </div>
-
-        <div className="input-group">
-          <label htmlFor="password">Last Name</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        {error && <p className="error">{error}</p>}  {/* Display error message if login fails */}
-
-        <button type="submit">Login</button>
-      </form>
+        <h2 className="text-2xl font-bold text-center text-[#001F54] mb-6">
+          Welcome to Sigma Eta Pi Progress Tracker
+        </h2>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              First Name
+            </label>
+            <input
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#001F54] focus:border-[#001F54]"
+            />
+          </div>
+          <div className="space-y-2">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Last Name
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-[#001F54] focus:border-[#001F54]"
+            />
+          </div>
+          {error && (
+            <div className="flex items-center space-x-2 text-[#FF5252]">
+              <AlertCircle size={16} />
+              <p className="text-sm">{error}</p>
+            </div>
+          )}
+          <button
+            type="submit"
+            className="w-full px-4 py-2 text-white bg-[#001F54] rounded-md hover:bg-[#001F54]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#001F54]"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
