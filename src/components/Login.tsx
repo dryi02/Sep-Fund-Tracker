@@ -12,7 +12,7 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('https://sep-fund-tracker.vercel.app/api/admin/login', {
+      const response = await fetch('https://localhost:5173/api/admin/login', {
         method: 'POST',
         body: JSON.stringify({ username, password }),
         headers: { 'Content-Type': 'application/json' },
