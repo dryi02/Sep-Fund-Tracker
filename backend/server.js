@@ -1,9 +1,10 @@
 const express = require('express');
-const cors = require('cors');  // Import the cors package
-const connectDB = require('./config/db');  // Import the DB connection
-const classRoutes = require('./routes/classRoutes');  // Import the class routes
-const pledgeRoutes = require('./routes/pledgeRoutes');  // Import the pledge routes
-const adminRoutes = require('./routes/adminRoutes');  // Import the admin routes
+const cors = require('cors');
+const connectDB = require('./config/db');
+const classRoutes = require('./routes/classRoutes');
+const pledgeRoutes = require('./routes/pledgeRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+const { createServer } = require('@vercel/node');
 const app = express();
 
 // Load environment variables
@@ -14,24 +15,21 @@ connectDB();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://sep-fund-tracker.vercel.app/'],  // Replace this with your frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Specify allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization']  // Specify allowed headers
+  origin: ['http://localhost:5173', 'https://sep-fund-tracker.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
 
 // Routes
-app.use('/api/classes', classRoutes);  // Use class routes
-app.use('/api/pledges', pledgeRoutes);  // Use pledge routes
-app.use('/api/admin', adminRoutes);  // Use admin routes
+app.use('/api/classes', classRoutes);
+app.use('/api/pledges', pledgeRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).send('SEP Tracker Backend');
 });
 
-// Set the server to listen
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Export the Express app as a Vercel serverless function
+module.exports = createServer(app);
