@@ -28,6 +28,11 @@ app.get('/', (req, res) => {
 
 // Only export the app for serverless environments
 connectDB().then(() => {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+
   module.exports = app; // If using Vercel's serverless environment
 }).catch(err => {
   console.error('Failed to connect to database:', err);
