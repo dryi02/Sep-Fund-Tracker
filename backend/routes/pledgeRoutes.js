@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import pledgeController from '../controllers/pledgeController.js'; // Ensure you use the .js extension
+
 const router = express.Router();
-const pledgeController = require('../controllers/pledgeController');
 
 // Route to create a new pledge
 router.post('/', pledgeController.createPledge);
@@ -20,4 +21,4 @@ router.delete('/:id', pledgeController.deletePledge);
 // Route to get all pledges for a specific class
 router.get('/classes/:id/pledges', pledgeController.getPledgesForClass);
 
-module.exports = router;
+export default router;

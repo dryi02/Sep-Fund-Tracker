@@ -8,11 +8,13 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState<string>('');
   const navigate = useNavigate();
 
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/api/admin/login', {
+      const response = await fetch(`${BACKEND_URL}/api/admin/login`, {
         method: 'POST',
         body: JSON.stringify({ username, password }),
         headers: { 'Content-Type': 'application/json' },

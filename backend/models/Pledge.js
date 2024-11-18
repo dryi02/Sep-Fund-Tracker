@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+
+const { Schema } = mongoose;
 
 const PledgeSchema = new Schema({
   firstName: { type: String, required: true },  // First name of the person associated with the pledge
@@ -10,4 +11,5 @@ const PledgeSchema = new Schema({
   classId: { type: Schema.Types.ObjectId, ref: 'Class', required: true },  // Reference to Class model
 });
 
-module.exports = mongoose.model('Pledge', PledgeSchema);
+const Pledge = mongoose.model('Pledge', PledgeSchema);
+export default Pledge;

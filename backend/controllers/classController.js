@@ -1,7 +1,7 @@
-const Class = require('../models/Class');
+import Class from "../models/Class.js";
 
 // Create a new class
-exports.createClass = async (req, res) => {
+const createClass = async (req, res) => {
   const { name } = req.body;
 
   try {
@@ -14,7 +14,7 @@ exports.createClass = async (req, res) => {
 };
 
 // Get all classes
-exports.getClasses = async (req, res) => {
+const getClasses = async (req, res) => {
   try {
     const classes = await Class.find();
     res.status(200).json(classes);
@@ -24,7 +24,7 @@ exports.getClasses = async (req, res) => {
 };
 
 // Get a class by ID
-exports.getClassById = async (req, res) => {
+const getClassById = async (req, res) => {
   try {
     const classDoc = await Class.findById(req.params.id).populate('pledges');
     if (!classDoc) {
@@ -37,7 +37,7 @@ exports.getClassById = async (req, res) => {
 };
 
 // Update a class by ID
-exports.updateClass = async (req, res) => {
+const updateClass = async (req, res) => {
   const { name } = req.body;
 
   try {
@@ -56,7 +56,7 @@ exports.updateClass = async (req, res) => {
 };
 
 // Delete a class by ID
-exports.deleteClass = async (req, res) => {
+const deleteClass = async (req, res) => {
   try {
     const deletedClass = await Class.findByIdAndDelete(req.params.id);
     if (!deletedClass) {
@@ -66,4 +66,12 @@ exports.deleteClass = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Error deleting class', error: err.message });
   }
+};
+
+export default {
+  createClass,
+  getClasses,
+  getClassById,
+  updateClass,
+  deleteClass
 };

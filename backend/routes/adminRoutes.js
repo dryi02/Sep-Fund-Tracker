@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import Admin from '../models/Admin.js';
+import Pledge from '../models/Pledge.js';
+import bcrypt from 'bcryptjs';
+
 const router = express.Router();
-const Admin = require('../models/Admin');
-const Pledge = require('../models/Pledge');
-const bcrypt = require('bcryptjs');
 
 // Create a new admin (sign up)
 // Create a new admin (sign up)
@@ -61,4 +62,4 @@ router.post('/login', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

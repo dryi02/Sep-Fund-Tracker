@@ -1,13 +1,14 @@
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const classRoutes = require('./routes/classRoutes');
-const pledgeRoutes = require('./routes/pledgeRoutes');
-const adminRoutes = require('./routes/adminRoutes');
-const app = express();
+import express from 'express';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import classRoutes from './routes/classRoutes.js';
+import pledgeRoutes from './routes/pledgeRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import dotenv from 'dotenv';
 
-// Load environment variables
-require('dotenv').config();
+dotenv.config(); // Load environment variables
+
+const app = express();
 
 // Middleware
 app.use(cors({
@@ -26,16 +27,18 @@ app.get('/', (req, res) => {
   res.status(200).send('SEP Tracker Backend');
 });
 
-// Only export the app for serverless environments
-connectDB().then(() => {
+// Mongoose connection
+const mongoURI = process.env.MONGO_URI;
+mongoose.connect(mongoURI)
+.then(() => {
+  console.log('Connected to MongoDB');
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
-
-  module.exports = app; // If using Vercel's serverless environment
-}).catch(err => {
-  console.error('Failed to connect to database:', err);
+})
+.catch(err => {
+  console.error('Failed to connect to MongoDB:', err);
 });
 
 export default app;

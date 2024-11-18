@@ -1,8 +1,8 @@
-const Pledge = require('../models/Pledge');
-const Class = require('../models/Class');
+import Pledge from "../models/Pledge.js";
+import Class from "../models/Class.js";
 
 // Create a new pledge
-exports.createPledge = async (req, res) => {
+const createPledge = async (req, res) => {
   const { firstName, lastName, goal, currentAmount, completedDate, classId } = req.body;
 
   try {
@@ -33,7 +33,7 @@ exports.createPledge = async (req, res) => {
 };
 
 // Get all pledges
-exports.getPledges = async (req, res) => {
+const getPledges = async (req, res) => {
   try {
     const pledges = await Pledge.find().populate('classId');
     res.status(200).json(pledges);
@@ -43,7 +43,7 @@ exports.getPledges = async (req, res) => {
 };
 
 // Get a pledge by ID
-exports.getPledgeById = async (req, res) => {
+const getPledgeById = async (req, res) => {
   try {
     const pledge = await Pledge.findById(req.params.id).populate('classId');
     if (!pledge) {
@@ -56,7 +56,7 @@ exports.getPledgeById = async (req, res) => {
 };
 
 // Get pledges for a specific class
-exports.getPledgesForClass = async (req, res) => {
+const getPledgesForClass = async (req, res) => {
   try {
     // Fetch pledges associated with the class using classId
     const pledges = await Pledge.find({ classId: req.params.id });
@@ -70,7 +70,7 @@ exports.getPledgesForClass = async (req, res) => {
 };
 
 // Update a pledge by ID
-exports.updatePledge = async (req, res) => {
+const updatePledge = async (req, res) => {
   const { firstName, lastName, goal, currentAmount, completedDate } = req.body;
 
   try {
@@ -89,7 +89,7 @@ exports.updatePledge = async (req, res) => {
 };
 
 // Delete a pledge by ID
-exports.deletePledge = async (req, res) => {
+const deletePledge = async (req, res) => {
   try {
     const deletedPledge = await Pledge.findByIdAndDelete(req.params.id);
     if (!deletedPledge) {
@@ -107,4 +107,13 @@ exports.deletePledge = async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: 'Error deleting pledge', error: err.message });
   }
+};
+
+export default {
+  createPledge,
+  getPledges,
+  getPledgeById,
+  getPledgesForClass,
+  updatePledge,
+  deletePledge
 };

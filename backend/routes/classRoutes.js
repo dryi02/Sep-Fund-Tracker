@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import classController from '../controllers/classController.js';
+
 const router = express.Router();
-const classController = require('../controllers/classController');
 
 // Route to create a new class
 router.post('/', classController.createClass);
@@ -17,4 +18,4 @@ router.put('/:id', classController.updateClass);
 // Route to delete a class by ID
 router.delete('/:id', classController.deleteClass);
 
-module.exports = router;
+export default router;
