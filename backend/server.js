@@ -6,7 +6,7 @@ import pledgeRoutes from './routes/pledgeRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const app = express();
 
@@ -14,7 +14,8 @@ const app = express();
 app.use(cors({
   origin: ['http://localhost:5173', 'https://sep-fund-tracker.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 }));
 app.use(express.json());
 

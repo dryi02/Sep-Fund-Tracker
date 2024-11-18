@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios
 import { AlertCircle } from 'lucide-react';
 
 const LoginPage: React.FC = () => {
@@ -14,16 +15,16 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${BACKEND_URL}/api/admin/login`, {
-        method: 'POST',
-        body: JSON.stringify({ username, password }),
-        headers: { 'Content-Type': 'application/json' },
-      });
+      // Use axios for the request
+      const response = await axios.post(
+        `${BACKEND_URL}/api/admin/login`,
+        { username, password }, // Request body
+      );
 
-      const data = await response.json();
+      const data = response.data;
       console.log(data);
 
-      if (response.ok) {
+      if (response.status === 200) {
         if (data.role === 'admin') {
           navigate('/admin-dashboard');
         } else if (data.role === 'pledge') {
@@ -33,7 +34,11 @@ const LoginPage: React.FC = () => {
         setError(data.message || 'Invalid credentials');
       }
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      if (axios.isAxiosError(err) && err.response) {
+        setError(err.response.data.message || 'Login failed. Please try again.');
+      } else {
+        setError('An error occurred. Please try again.');
+      }
     }
   };
 
