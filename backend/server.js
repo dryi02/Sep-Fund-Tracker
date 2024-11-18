@@ -11,12 +11,30 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: ['http://localhost:5173/', 'https://sep-fund-tracker.vercel.app/'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: ['http://localhost:5173/', 'https://sep-fund-tracker.vercel.app/'],
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//   allowedHeaders: ['Content-Type', 'Authorization'],
+//   credentials: true,
+// }));
+
+const allowedOrigins = [
+  'http://localhost:5173', 
+  'https://sep-fund-tracker.vercel.app/'
+];
+
+app.use(function(req, res, next) {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin); // Set the origin dynamically
+    res.header("Access-Control-Allow-Credentials", "true"); // Only if credentials like cookies are involved
+  }
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  next();
+});
+
+
 app.use(express.json());
 
 // Routes
