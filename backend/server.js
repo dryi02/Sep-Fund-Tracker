@@ -18,6 +18,7 @@ const app = express();
 //   credentials: true,
 // }));
 
+
 const corsOptions = {
   origin: ['http://localhost:5173', 'https://sep-fund-tracker.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
